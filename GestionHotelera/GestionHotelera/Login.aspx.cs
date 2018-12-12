@@ -46,17 +46,19 @@ namespace GestionHotelera
                 if (existe)
                 {
                     tbl_persona user = new tbl_persona();
-                    //Usuario nk = new Usuario();
+                    tbl_usuario nk = new tbl_usuario();
+                    tbl_rol rol = new tbl_rol();
 
                     user = Llogin.ObtenerUsuario(usuario, pass);
-                    //nk = Llogin.ObtenerNick(usuario, pass);
+                    nk = Llogin.ObtenerNick(usuario, pass);
+                    rol = Llogin.obtenerPerfil(usuario, pass);
 
                     //crear la sesion
                     Llogin cs = new Llogin();
                     
-                    Session["perfil"] = user.id_persona;
+                    Session["perfil"] = rol.descripcion_rol;
                     Session["nombres"] = user.nombre1_persona + " " + user.apellido1_persona;
-                    Session["nick"] = txtUsuario.Value;
+                    Session["nick"] = nk.nick_usuario;
                     Response.Redirect("~/inicio.aspx");
                 }
                 else

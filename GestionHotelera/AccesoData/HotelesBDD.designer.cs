@@ -622,6 +622,8 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_categoriaproducto;
 		
+		private EntitySet<tbl_producto> _tbl_productos;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -640,6 +642,7 @@ namespace AccesoData
 		
 		public tbl_categoria_producto()
 		{
+			this._tbl_productos = new EntitySet<tbl_producto>(new Action<tbl_producto>(this.attach_tbl_productos), new Action<tbl_producto>(this.detach_tbl_productos));
 			OnCreated();
 		}
 		
@@ -743,6 +746,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_categoria_producto_tbl_producto", Storage="_tbl_productos", ThisKey="id_categoriaproducto", OtherKey="id_categoriaproducto")]
+		public EntitySet<tbl_producto> tbl_productos
+		{
+			get
+			{
+				return this._tbl_productos;
+			}
+			set
+			{
+				this._tbl_productos.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -761,6 +777,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_productos(tbl_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_categoria_producto = this;
+		}
+		
+		private void detach_tbl_productos(tbl_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_categoria_producto = null;
 		}
 	}
 	
@@ -791,6 +819,8 @@ namespace AccesoData
 		private System.Nullable<char> _estado_comprobante;
 		
 		private EntitySet<tbl_detalle_alquiler> _tbl_detalle_alquilers;
+		
+		private EntitySet<tbl_detalle_pedido> _tbl_detalle_pedidos;
 		
 		private EntityRef<tbl_tipo_comprobante> _tbl_tipo_comprobante;
 		
@@ -823,6 +853,7 @@ namespace AccesoData
 		public tbl_comprobante()
 		{
 			this._tbl_detalle_alquilers = new EntitySet<tbl_detalle_alquiler>(new Action<tbl_detalle_alquiler>(this.attach_tbl_detalle_alquilers), new Action<tbl_detalle_alquiler>(this.detach_tbl_detalle_alquilers));
+			this._tbl_detalle_pedidos = new EntitySet<tbl_detalle_pedido>(new Action<tbl_detalle_pedido>(this.attach_tbl_detalle_pedidos), new Action<tbl_detalle_pedido>(this.detach_tbl_detalle_pedidos));
 			this._tbl_tipo_comprobante = default(EntityRef<tbl_tipo_comprobante>);
 			OnCreated();
 		}
@@ -1044,6 +1075,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_comprobante_tbl_detalle_pedido", Storage="_tbl_detalle_pedidos", ThisKey="id_comprobante", OtherKey="id_comprobante")]
+		public EntitySet<tbl_detalle_pedido> tbl_detalle_pedidos
+		{
+			get
+			{
+				return this._tbl_detalle_pedidos;
+			}
+			set
+			{
+				this._tbl_detalle_pedidos.Assign(value);
+			}
+		}
+		
 		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_tipo_comprobante_tbl_comprobante", Storage="_tbl_tipo_comprobante", ThisKey="id_tipocomprobante", OtherKey="id_tipocomprobante", IsForeignKey=true)]
 		public tbl_tipo_comprobante tbl_tipo_comprobante
 		{
@@ -1109,6 +1153,18 @@ namespace AccesoData
 			this.SendPropertyChanging();
 			entity.tbl_comprobante = null;
 		}
+		
+		private void attach_tbl_detalle_pedidos(tbl_detalle_pedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_comprobante = this;
+		}
+		
+		private void detach_tbl_detalle_pedidos(tbl_detalle_pedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_comprobante = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_detalle_alquiler")]
@@ -1119,11 +1175,11 @@ namespace AccesoData
 		
 		private int _id_detallealquiler;
 		
-		private System.Nullable<int> _id_alquiler;
+		private System.Nullable<int> _id_habitacion;
 		
 		private System.Nullable<int> _id_comprobante;
 		
-		private System.Nullable<int> _id_habitacion;
+		private System.Nullable<int> _id_alquiler;
 		
 		private System.Nullable<System.DateTime> _creacion_detallealquiler;
 		
@@ -1143,12 +1199,12 @@ namespace AccesoData
     partial void OnCreated();
     partial void Onid_detallealquilerChanging(int value);
     partial void Onid_detallealquilerChanged();
-    partial void Onid_alquilerChanging(System.Nullable<int> value);
-    partial void Onid_alquilerChanged();
-    partial void Onid_comprobanteChanging(System.Nullable<int> value);
-    partial void Onid_comprobanteChanged();
     partial void Onid_habitacionChanging(System.Nullable<int> value);
     partial void Onid_habitacionChanged();
+    partial void Onid_comprobanteChanging(System.Nullable<int> value);
+    partial void Onid_comprobanteChanged();
+    partial void Onid_alquilerChanging(System.Nullable<int> value);
+    partial void Onid_alquilerChanged();
     partial void Oncreacion_detallealquilerChanging(System.Nullable<System.DateTime> value);
     partial void Oncreacion_detallealquilerChanged();
     partial void Onactualizacion_detallealquilerChanging(System.Nullable<System.DateTime> value);
@@ -1185,26 +1241,26 @@ namespace AccesoData
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_alquiler", DbType="Int")]
-		public System.Nullable<int> id_alquiler
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_habitacion", DbType="Int")]
+		public System.Nullable<int> id_habitacion
 		{
 			get
 			{
-				return this._id_alquiler;
+				return this._id_habitacion;
 			}
 			set
 			{
-				if ((this._id_alquiler != value))
+				if ((this._id_habitacion != value))
 				{
-					if (this._tbl_alquiler.HasLoadedOrAssignedValue)
+					if (this._tbl_habitacion.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.Onid_alquilerChanging(value);
+					this.Onid_habitacionChanging(value);
 					this.SendPropertyChanging();
-					this._id_alquiler = value;
-					this.SendPropertyChanged("id_alquiler");
-					this.Onid_alquilerChanged();
+					this._id_habitacion = value;
+					this.SendPropertyChanged("id_habitacion");
+					this.Onid_habitacionChanged();
 				}
 			}
 		}
@@ -1233,26 +1289,26 @@ namespace AccesoData
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_habitacion", DbType="Int")]
-		public System.Nullable<int> id_habitacion
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_alquiler", DbType="Int")]
+		public System.Nullable<int> id_alquiler
 		{
 			get
 			{
-				return this._id_habitacion;
+				return this._id_alquiler;
 			}
 			set
 			{
-				if ((this._id_habitacion != value))
+				if ((this._id_alquiler != value))
 				{
-					if (this._tbl_habitacion.HasLoadedOrAssignedValue)
+					if (this._tbl_alquiler.HasLoadedOrAssignedValue)
 					{
 						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
 					}
-					this.Onid_habitacionChanging(value);
+					this.Onid_alquilerChanging(value);
 					this.SendPropertyChanging();
-					this._id_habitacion = value;
-					this.SendPropertyChanged("id_habitacion");
-					this.Onid_habitacionChanged();
+					this._id_alquiler = value;
+					this.SendPropertyChanged("id_alquiler");
+					this.Onid_alquilerChanged();
 				}
 			}
 		}
@@ -1458,6 +1514,10 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_detallepedido;
 		
+		private EntityRef<tbl_comprobante> _tbl_comprobante;
+		
+		private EntityRef<tbl_pedido> _tbl_pedido;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1478,6 +1538,8 @@ namespace AccesoData
 		
 		public tbl_detalle_pedido()
 		{
+			this._tbl_comprobante = default(EntityRef<tbl_comprobante>);
+			this._tbl_pedido = default(EntityRef<tbl_pedido>);
 			OnCreated();
 		}
 		
@@ -1512,6 +1574,10 @@ namespace AccesoData
 			{
 				if ((this._id_pedido != value))
 				{
+					if (this._tbl_pedido.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_pedidoChanging(value);
 					this.SendPropertyChanging();
 					this._id_pedido = value;
@@ -1532,6 +1598,10 @@ namespace AccesoData
 			{
 				if ((this._id_comprobante != value))
 				{
+					if (this._tbl_comprobante.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_comprobanteChanging(value);
 					this.SendPropertyChanging();
 					this._id_comprobante = value;
@@ -1601,6 +1671,74 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_comprobante_tbl_detalle_pedido", Storage="_tbl_comprobante", ThisKey="id_comprobante", OtherKey="id_comprobante", IsForeignKey=true)]
+		public tbl_comprobante tbl_comprobante
+		{
+			get
+			{
+				return this._tbl_comprobante.Entity;
+			}
+			set
+			{
+				tbl_comprobante previousValue = this._tbl_comprobante.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_comprobante.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_comprobante.Entity = null;
+						previousValue.tbl_detalle_pedidos.Remove(this);
+					}
+					this._tbl_comprobante.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_detalle_pedidos.Add(this);
+						this._id_comprobante = value.id_comprobante;
+					}
+					else
+					{
+						this._id_comprobante = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_comprobante");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_pedido_tbl_detalle_pedido", Storage="_tbl_pedido", ThisKey="id_pedido", OtherKey="id_pedido", IsForeignKey=true)]
+		public tbl_pedido tbl_pedido
+		{
+			get
+			{
+				return this._tbl_pedido.Entity;
+			}
+			set
+			{
+				tbl_pedido previousValue = this._tbl_pedido.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_pedido.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_pedido.Entity = null;
+						previousValue.tbl_detalle_pedidos.Remove(this);
+					}
+					this._tbl_pedido.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_detalle_pedidos.Add(this);
+						this._id_pedido = value.id_pedido;
+					}
+					else
+					{
+						this._id_pedido = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_pedido");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1630,9 +1768,9 @@ namespace AccesoData
 		
 		private int _id_detalleproducto;
 		
-		private System.Nullable<int> _id_producto;
-		
 		private System.Nullable<int> _id_pedido;
+		
+		private System.Nullable<int> _id_producto;
 		
 		private System.Nullable<decimal> _cantidad_detalleproducto;
 		
@@ -1644,16 +1782,20 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_detalleproducto;
 		
+		private EntityRef<tbl_pedido> _tbl_pedido;
+		
+		private EntityRef<tbl_producto> _tbl_producto;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void Onid_detalleproductoChanging(int value);
     partial void Onid_detalleproductoChanged();
-    partial void Onid_productoChanging(System.Nullable<int> value);
-    partial void Onid_productoChanged();
     partial void Onid_pedidoChanging(System.Nullable<int> value);
     partial void Onid_pedidoChanged();
+    partial void Onid_productoChanging(System.Nullable<int> value);
+    partial void Onid_productoChanged();
     partial void Oncantidad_detalleproductoChanging(System.Nullable<decimal> value);
     partial void Oncantidad_detalleproductoChanged();
     partial void Onprecio_detalleproductoChanging(System.Nullable<decimal> value);
@@ -1668,6 +1810,8 @@ namespace AccesoData
 		
 		public tbl_detalle_producto()
 		{
+			this._tbl_pedido = default(EntityRef<tbl_pedido>);
+			this._tbl_producto = default(EntityRef<tbl_producto>);
 			OnCreated();
 		}
 		
@@ -1691,26 +1835,6 @@ namespace AccesoData
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_producto", DbType="Int")]
-		public System.Nullable<int> id_producto
-		{
-			get
-			{
-				return this._id_producto;
-			}
-			set
-			{
-				if ((this._id_producto != value))
-				{
-					this.Onid_productoChanging(value);
-					this.SendPropertyChanging();
-					this._id_producto = value;
-					this.SendPropertyChanged("id_producto");
-					this.Onid_productoChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_pedido", DbType="Int")]
 		public System.Nullable<int> id_pedido
 		{
@@ -1722,11 +1846,39 @@ namespace AccesoData
 			{
 				if ((this._id_pedido != value))
 				{
+					if (this._tbl_pedido.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_pedidoChanging(value);
 					this.SendPropertyChanging();
 					this._id_pedido = value;
 					this.SendPropertyChanged("id_pedido");
 					this.Onid_pedidoChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_producto", DbType="Int")]
+		public System.Nullable<int> id_producto
+		{
+			get
+			{
+				return this._id_producto;
+			}
+			set
+			{
+				if ((this._id_producto != value))
+				{
+					if (this._tbl_producto.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onid_productoChanging(value);
+					this.SendPropertyChanging();
+					this._id_producto = value;
+					this.SendPropertyChanged("id_producto");
+					this.Onid_productoChanged();
 				}
 			}
 		}
@@ -1831,6 +1983,74 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_pedido_tbl_detalle_producto", Storage="_tbl_pedido", ThisKey="id_pedido", OtherKey="id_pedido", IsForeignKey=true)]
+		public tbl_pedido tbl_pedido
+		{
+			get
+			{
+				return this._tbl_pedido.Entity;
+			}
+			set
+			{
+				tbl_pedido previousValue = this._tbl_pedido.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_pedido.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_pedido.Entity = null;
+						previousValue.tbl_detalle_productos.Remove(this);
+					}
+					this._tbl_pedido.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_detalle_productos.Add(this);
+						this._id_pedido = value.id_pedido;
+					}
+					else
+					{
+						this._id_pedido = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_pedido");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_producto_tbl_detalle_producto", Storage="_tbl_producto", ThisKey="id_producto", OtherKey="id_producto", IsForeignKey=true)]
+		public tbl_producto tbl_producto
+		{
+			get
+			{
+				return this._tbl_producto.Entity;
+			}
+			set
+			{
+				tbl_producto previousValue = this._tbl_producto.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_producto.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_producto.Entity = null;
+						previousValue.tbl_detalle_productos.Remove(this);
+					}
+					this._tbl_producto.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_detalle_productos.Add(this);
+						this._id_producto = value.id_producto;
+					}
+					else
+					{
+						this._id_producto = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_producto");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -1878,6 +2098,12 @@ namespace AccesoData
 		
 		private EntitySet<tbl_detalle_alquiler> _tbl_detalle_alquilers;
 		
+		private EntitySet<tbl_reservacion> _tbl_reservacions;
+		
+		private EntityRef<tbl_hotel> _tbl_hotel;
+		
+		private EntityRef<tbl_tipo_habitacion> _tbl_tipo_habitacion;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -1905,6 +2131,9 @@ namespace AccesoData
 		public tbl_habitacion()
 		{
 			this._tbl_detalle_alquilers = new EntitySet<tbl_detalle_alquiler>(new Action<tbl_detalle_alquiler>(this.attach_tbl_detalle_alquilers), new Action<tbl_detalle_alquiler>(this.detach_tbl_detalle_alquilers));
+			this._tbl_reservacions = new EntitySet<tbl_reservacion>(new Action<tbl_reservacion>(this.attach_tbl_reservacions), new Action<tbl_reservacion>(this.detach_tbl_reservacions));
+			this._tbl_hotel = default(EntityRef<tbl_hotel>);
+			this._tbl_tipo_habitacion = default(EntityRef<tbl_tipo_habitacion>);
 			OnCreated();
 		}
 		
@@ -1939,6 +2168,10 @@ namespace AccesoData
 			{
 				if ((this._id_tipohabitacion != value))
 				{
+					if (this._tbl_tipo_habitacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_tipohabitacionChanging(value);
 					this.SendPropertyChanging();
 					this._id_tipohabitacion = value;
@@ -1959,6 +2192,10 @@ namespace AccesoData
 			{
 				if ((this._id_hotel != value))
 				{
+					if (this._tbl_hotel.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_hotelChanging(value);
 					this.SendPropertyChanging();
 					this._id_hotel = value;
@@ -2101,6 +2338,87 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_habitacion_tbl_reservacion", Storage="_tbl_reservacions", ThisKey="id_habitacion", OtherKey="id_habitacion")]
+		public EntitySet<tbl_reservacion> tbl_reservacions
+		{
+			get
+			{
+				return this._tbl_reservacions;
+			}
+			set
+			{
+				this._tbl_reservacions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_hotel_tbl_habitacion", Storage="_tbl_hotel", ThisKey="id_hotel", OtherKey="id_hotel", IsForeignKey=true)]
+		public tbl_hotel tbl_hotel
+		{
+			get
+			{
+				return this._tbl_hotel.Entity;
+			}
+			set
+			{
+				tbl_hotel previousValue = this._tbl_hotel.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_hotel.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_hotel.Entity = null;
+						previousValue.tbl_habitacions.Remove(this);
+					}
+					this._tbl_hotel.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_habitacions.Add(this);
+						this._id_hotel = value.id_hotel;
+					}
+					else
+					{
+						this._id_hotel = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_hotel");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_tipo_habitacion_tbl_habitacion", Storage="_tbl_tipo_habitacion", ThisKey="id_tipohabitacion", OtherKey="id_tipohabitacion", IsForeignKey=true)]
+		public tbl_tipo_habitacion tbl_tipo_habitacion
+		{
+			get
+			{
+				return this._tbl_tipo_habitacion.Entity;
+			}
+			set
+			{
+				tbl_tipo_habitacion previousValue = this._tbl_tipo_habitacion.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_tipo_habitacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_tipo_habitacion.Entity = null;
+						previousValue.tbl_habitacions.Remove(this);
+					}
+					this._tbl_tipo_habitacion.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_habitacions.Add(this);
+						this._id_tipohabitacion = value.id_tipohabitacion;
+					}
+					else
+					{
+						this._id_tipohabitacion = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_tipo_habitacion");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2128,6 +2446,18 @@ namespace AccesoData
 		}
 		
 		private void detach_tbl_detalle_alquilers(tbl_detalle_alquiler entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_habitacion = null;
+		}
+		
+		private void attach_tbl_reservacions(tbl_reservacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_habitacion = this;
+		}
+		
+		private void detach_tbl_reservacions(tbl_reservacion entity)
 		{
 			this.SendPropertyChanging();
 			entity.tbl_habitacion = null;
@@ -2160,6 +2490,10 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_hotel;
 		
+		private EntitySet<tbl_habitacion> _tbl_habitacions;
+		
+		private EntityRef<tbl_provincia> _tbl_provincia;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2188,6 +2522,8 @@ namespace AccesoData
 		
 		public tbl_hotel()
 		{
+			this._tbl_habitacions = new EntitySet<tbl_habitacion>(new Action<tbl_habitacion>(this.attach_tbl_habitacions), new Action<tbl_habitacion>(this.detach_tbl_habitacions));
+			this._tbl_provincia = default(EntityRef<tbl_provincia>);
 			OnCreated();
 		}
 		
@@ -2222,6 +2558,10 @@ namespace AccesoData
 			{
 				if ((this._id_provincia != value))
 				{
+					if (this._tbl_provincia.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_provinciaChanging(value);
 					this.SendPropertyChanging();
 					this._id_provincia = value;
@@ -2391,6 +2731,53 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_hotel_tbl_habitacion", Storage="_tbl_habitacions", ThisKey="id_hotel", OtherKey="id_hotel")]
+		public EntitySet<tbl_habitacion> tbl_habitacions
+		{
+			get
+			{
+				return this._tbl_habitacions;
+			}
+			set
+			{
+				this._tbl_habitacions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_provincia_tbl_hotel", Storage="_tbl_provincia", ThisKey="id_provincia", OtherKey="id_provincia", IsForeignKey=true)]
+		public tbl_provincia tbl_provincia
+		{
+			get
+			{
+				return this._tbl_provincia.Entity;
+			}
+			set
+			{
+				tbl_provincia previousValue = this._tbl_provincia.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_provincia.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_provincia.Entity = null;
+						previousValue.tbl_hotels.Remove(this);
+					}
+					this._tbl_provincia.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_hotels.Add(this);
+						this._id_provincia = value.id_provincia;
+					}
+					else
+					{
+						this._id_provincia = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_provincia");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2410,6 +2797,18 @@ namespace AccesoData
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_tbl_habitacions(tbl_habitacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_hotel = this;
+		}
+		
+		private void detach_tbl_habitacions(tbl_habitacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_hotel = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_identificacion")]
@@ -2427,6 +2826,8 @@ namespace AccesoData
 		private System.Nullable<System.DateTime> _actualizacion_identificacion;
 		
 		private System.Nullable<char> _estado_identificacion;
+		
+		private EntitySet<tbl_persona> _tbl_personas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2446,6 +2847,7 @@ namespace AccesoData
 		
 		public tbl_identificacion()
 		{
+			this._tbl_personas = new EntitySet<tbl_persona>(new Action<tbl_persona>(this.attach_tbl_personas), new Action<tbl_persona>(this.detach_tbl_personas));
 			OnCreated();
 		}
 		
@@ -2549,6 +2951,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_identificacion_tbl_persona", Storage="_tbl_personas", ThisKey="id_identificacion", OtherKey="id_identificacion")]
+		public EntitySet<tbl_persona> tbl_personas
+		{
+			get
+			{
+				return this._tbl_personas;
+			}
+			set
+			{
+				this._tbl_personas.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2568,6 +2983,18 @@ namespace AccesoData
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_tbl_personas(tbl_persona entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_identificacion = this;
+		}
+		
+		private void detach_tbl_personas(tbl_persona entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_identificacion = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_marca_producto")]
@@ -2585,6 +3012,8 @@ namespace AccesoData
 		private System.Nullable<System.DateTime> _actualizacion_marcaproducto;
 		
 		private System.Nullable<char> _estado_marcaproducto;
+		
+		private EntitySet<tbl_producto> _tbl_productos;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -2604,6 +3033,7 @@ namespace AccesoData
 		
 		public tbl_marca_producto()
 		{
+			this._tbl_productos = new EntitySet<tbl_producto>(new Action<tbl_producto>(this.attach_tbl_productos), new Action<tbl_producto>(this.detach_tbl_productos));
 			OnCreated();
 		}
 		
@@ -2707,6 +3137,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_marca_producto_tbl_producto", Storage="_tbl_productos", ThisKey="id_marcaproducto", OtherKey="id_marcaproducto")]
+		public EntitySet<tbl_producto> tbl_productos
+		{
+			get
+			{
+				return this._tbl_productos;
+			}
+			set
+			{
+				this._tbl_productos.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2725,6 +3168,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_productos(tbl_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_marca_producto = this;
+		}
+		
+		private void detach_tbl_productos(tbl_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_marca_producto = null;
 		}
 	}
 	
@@ -2746,6 +3201,10 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_pedido;
 		
+		private EntitySet<tbl_detalle_pedido> _tbl_detalle_pedidos;
+		
+		private EntitySet<tbl_detalle_producto> _tbl_detalle_productos;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -2766,6 +3225,8 @@ namespace AccesoData
 		
 		public tbl_pedido()
 		{
+			this._tbl_detalle_pedidos = new EntitySet<tbl_detalle_pedido>(new Action<tbl_detalle_pedido>(this.attach_tbl_detalle_pedidos), new Action<tbl_detalle_pedido>(this.detach_tbl_detalle_pedidos));
+			this._tbl_detalle_productos = new EntitySet<tbl_detalle_producto>(new Action<tbl_detalle_producto>(this.attach_tbl_detalle_productos), new Action<tbl_detalle_producto>(this.detach_tbl_detalle_productos));
 			OnCreated();
 		}
 		
@@ -2889,6 +3350,32 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_pedido_tbl_detalle_pedido", Storage="_tbl_detalle_pedidos", ThisKey="id_pedido", OtherKey="id_pedido")]
+		public EntitySet<tbl_detalle_pedido> tbl_detalle_pedidos
+		{
+			get
+			{
+				return this._tbl_detalle_pedidos;
+			}
+			set
+			{
+				this._tbl_detalle_pedidos.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_pedido_tbl_detalle_producto", Storage="_tbl_detalle_productos", ThisKey="id_pedido", OtherKey="id_pedido")]
+		public EntitySet<tbl_detalle_producto> tbl_detalle_productos
+		{
+			get
+			{
+				return this._tbl_detalle_productos;
+			}
+			set
+			{
+				this._tbl_detalle_productos.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -2908,6 +3395,30 @@ namespace AccesoData
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_tbl_detalle_pedidos(tbl_detalle_pedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_pedido = this;
+		}
+		
+		private void detach_tbl_detalle_pedidos(tbl_detalle_pedido entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_pedido = null;
+		}
+		
+		private void attach_tbl_detalle_productos(tbl_detalle_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_pedido = this;
+		}
+		
+		private void detach_tbl_detalle_productos(tbl_detalle_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_pedido = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_persona")]
@@ -2918,9 +3429,9 @@ namespace AccesoData
 		
 		private int _id_persona;
 		
-		private System.Nullable<int> _id_tipopersona;
-		
 		private System.Nullable<int> _id_identificacion;
+		
+		private System.Nullable<int> _id_tipopersona;
 		
 		private string _numero_identificacionpersona;
 		
@@ -2948,16 +3459,22 @@ namespace AccesoData
 		
 		private EntitySet<tbl_alquiler> _tbl_alquilers;
 		
+		private EntitySet<tbl_usuario> _tbl_usuarios;
+		
+		private EntityRef<tbl_identificacion> _tbl_identificacion;
+		
+		private EntityRef<tbl_tipo_persona> _tbl_tipo_persona;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
     partial void OnCreated();
     partial void Onid_personaChanging(int value);
     partial void Onid_personaChanged();
-    partial void Onid_tipopersonaChanging(System.Nullable<int> value);
-    partial void Onid_tipopersonaChanged();
     partial void Onid_identificacionChanging(System.Nullable<int> value);
     partial void Onid_identificacionChanged();
+    partial void Onid_tipopersonaChanging(System.Nullable<int> value);
+    partial void Onid_tipopersonaChanged();
     partial void Onnumero_identificacionpersonaChanging(string value);
     partial void Onnumero_identificacionpersonaChanged();
     partial void Onapellido1_personaChanging(string value);
@@ -2987,6 +3504,9 @@ namespace AccesoData
 		public tbl_persona()
 		{
 			this._tbl_alquilers = new EntitySet<tbl_alquiler>(new Action<tbl_alquiler>(this.attach_tbl_alquilers), new Action<tbl_alquiler>(this.detach_tbl_alquilers));
+			this._tbl_usuarios = new EntitySet<tbl_usuario>(new Action<tbl_usuario>(this.attach_tbl_usuarios), new Action<tbl_usuario>(this.detach_tbl_usuarios));
+			this._tbl_identificacion = default(EntityRef<tbl_identificacion>);
+			this._tbl_tipo_persona = default(EntityRef<tbl_tipo_persona>);
 			OnCreated();
 		}
 		
@@ -3010,26 +3530,6 @@ namespace AccesoData
 			}
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_tipopersona", DbType="Int")]
-		public System.Nullable<int> id_tipopersona
-		{
-			get
-			{
-				return this._id_tipopersona;
-			}
-			set
-			{
-				if ((this._id_tipopersona != value))
-				{
-					this.Onid_tipopersonaChanging(value);
-					this.SendPropertyChanging();
-					this._id_tipopersona = value;
-					this.SendPropertyChanged("id_tipopersona");
-					this.Onid_tipopersonaChanged();
-				}
-			}
-		}
-		
 		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_identificacion", DbType="Int")]
 		public System.Nullable<int> id_identificacion
 		{
@@ -3041,11 +3541,39 @@ namespace AccesoData
 			{
 				if ((this._id_identificacion != value))
 				{
+					if (this._tbl_identificacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_identificacionChanging(value);
 					this.SendPropertyChanging();
 					this._id_identificacion = value;
 					this.SendPropertyChanged("id_identificacion");
 					this.Onid_identificacionChanged();
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_tipopersona", DbType="Int")]
+		public System.Nullable<int> id_tipopersona
+		{
+			get
+			{
+				return this._id_tipopersona;
+			}
+			set
+			{
+				if ((this._id_tipopersona != value))
+				{
+					if (this._tbl_tipo_persona.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
+					this.Onid_tipopersonaChanging(value);
+					this.SendPropertyChanging();
+					this._id_tipopersona = value;
+					this.SendPropertyChanged("id_tipopersona");
+					this.Onid_tipopersonaChanged();
 				}
 			}
 		}
@@ -3303,6 +3831,87 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_persona_tbl_usuario", Storage="_tbl_usuarios", ThisKey="id_persona", OtherKey="id_persona")]
+		public EntitySet<tbl_usuario> tbl_usuarios
+		{
+			get
+			{
+				return this._tbl_usuarios;
+			}
+			set
+			{
+				this._tbl_usuarios.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_identificacion_tbl_persona", Storage="_tbl_identificacion", ThisKey="id_identificacion", OtherKey="id_identificacion", IsForeignKey=true)]
+		public tbl_identificacion tbl_identificacion
+		{
+			get
+			{
+				return this._tbl_identificacion.Entity;
+			}
+			set
+			{
+				tbl_identificacion previousValue = this._tbl_identificacion.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_identificacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_identificacion.Entity = null;
+						previousValue.tbl_personas.Remove(this);
+					}
+					this._tbl_identificacion.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_personas.Add(this);
+						this._id_identificacion = value.id_identificacion;
+					}
+					else
+					{
+						this._id_identificacion = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_identificacion");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_tipo_persona_tbl_persona", Storage="_tbl_tipo_persona", ThisKey="id_tipopersona", OtherKey="id_tipopersona", IsForeignKey=true)]
+		public tbl_tipo_persona tbl_tipo_persona
+		{
+			get
+			{
+				return this._tbl_tipo_persona.Entity;
+			}
+			set
+			{
+				tbl_tipo_persona previousValue = this._tbl_tipo_persona.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_tipo_persona.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_tipo_persona.Entity = null;
+						previousValue.tbl_personas.Remove(this);
+					}
+					this._tbl_tipo_persona.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_personas.Add(this);
+						this._id_tipopersona = value.id_tipopersona;
+					}
+					else
+					{
+						this._id_tipopersona = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_tipo_persona");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3330,6 +3939,18 @@ namespace AccesoData
 		}
 		
 		private void detach_tbl_alquilers(tbl_alquiler entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_persona = null;
+		}
+		
+		private void attach_tbl_usuarios(tbl_usuario entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_persona = this;
+		}
+		
+		private void detach_tbl_usuarios(tbl_usuario entity)
 		{
 			this.SendPropertyChanging();
 			entity.tbl_persona = null;
@@ -3370,6 +3991,12 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_producto;
 		
+		private EntitySet<tbl_detalle_producto> _tbl_detalle_productos;
+		
+		private EntityRef<tbl_categoria_producto> _tbl_categoria_producto;
+		
+		private EntityRef<tbl_marca_producto> _tbl_marca_producto;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3406,6 +4033,9 @@ namespace AccesoData
 		
 		public tbl_producto()
 		{
+			this._tbl_detalle_productos = new EntitySet<tbl_detalle_producto>(new Action<tbl_detalle_producto>(this.attach_tbl_detalle_productos), new Action<tbl_detalle_producto>(this.detach_tbl_detalle_productos));
+			this._tbl_categoria_producto = default(EntityRef<tbl_categoria_producto>);
+			this._tbl_marca_producto = default(EntityRef<tbl_marca_producto>);
 			OnCreated();
 		}
 		
@@ -3440,6 +4070,10 @@ namespace AccesoData
 			{
 				if ((this._id_marcaproducto != value))
 				{
+					if (this._tbl_marca_producto.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_marcaproductoChanging(value);
 					this.SendPropertyChanging();
 					this._id_marcaproducto = value;
@@ -3460,6 +4094,10 @@ namespace AccesoData
 			{
 				if ((this._id_categoriaproducto != value))
 				{
+					if (this._tbl_categoria_producto.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_categoriaproductoChanging(value);
 					this.SendPropertyChanging();
 					this._id_categoriaproducto = value;
@@ -3689,6 +4327,87 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_producto_tbl_detalle_producto", Storage="_tbl_detalle_productos", ThisKey="id_producto", OtherKey="id_producto")]
+		public EntitySet<tbl_detalle_producto> tbl_detalle_productos
+		{
+			get
+			{
+				return this._tbl_detalle_productos;
+			}
+			set
+			{
+				this._tbl_detalle_productos.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_categoria_producto_tbl_producto", Storage="_tbl_categoria_producto", ThisKey="id_categoriaproducto", OtherKey="id_categoriaproducto", IsForeignKey=true)]
+		public tbl_categoria_producto tbl_categoria_producto
+		{
+			get
+			{
+				return this._tbl_categoria_producto.Entity;
+			}
+			set
+			{
+				tbl_categoria_producto previousValue = this._tbl_categoria_producto.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_categoria_producto.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_categoria_producto.Entity = null;
+						previousValue.tbl_productos.Remove(this);
+					}
+					this._tbl_categoria_producto.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_productos.Add(this);
+						this._id_categoriaproducto = value.id_categoriaproducto;
+					}
+					else
+					{
+						this._id_categoriaproducto = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_categoria_producto");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_marca_producto_tbl_producto", Storage="_tbl_marca_producto", ThisKey="id_marcaproducto", OtherKey="id_marcaproducto", IsForeignKey=true)]
+		public tbl_marca_producto tbl_marca_producto
+		{
+			get
+			{
+				return this._tbl_marca_producto.Entity;
+			}
+			set
+			{
+				tbl_marca_producto previousValue = this._tbl_marca_producto.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_marca_producto.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_marca_producto.Entity = null;
+						previousValue.tbl_productos.Remove(this);
+					}
+					this._tbl_marca_producto.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_productos.Add(this);
+						this._id_marcaproducto = value.id_marcaproducto;
+					}
+					else
+					{
+						this._id_marcaproducto = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_marca_producto");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3708,6 +4427,18 @@ namespace AccesoData
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_tbl_detalle_productos(tbl_detalle_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_producto = this;
+		}
+		
+		private void detach_tbl_detalle_productos(tbl_detalle_producto entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_producto = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_provincia")]
@@ -3725,6 +4456,8 @@ namespace AccesoData
 		private System.Nullable<System.DateTime> _actualizacion_provincia;
 		
 		private System.Nullable<char> _estado_provincia;
+		
+		private EntitySet<tbl_hotel> _tbl_hotels;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -3744,6 +4477,7 @@ namespace AccesoData
 		
 		public tbl_provincia()
 		{
+			this._tbl_hotels = new EntitySet<tbl_hotel>(new Action<tbl_hotel>(this.attach_tbl_hotels), new Action<tbl_hotel>(this.detach_tbl_hotels));
 			OnCreated();
 		}
 		
@@ -3847,6 +4581,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_provincia_tbl_hotel", Storage="_tbl_hotels", ThisKey="id_provincia", OtherKey="id_provincia")]
+		public EntitySet<tbl_hotel> tbl_hotels
+		{
+			get
+			{
+				return this._tbl_hotels;
+			}
+			set
+			{
+				this._tbl_hotels.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -3865,6 +4612,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_hotels(tbl_hotel entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_provincia = this;
+		}
+		
+		private void detach_tbl_hotels(tbl_hotel entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_provincia = null;
 		}
 	}
 	
@@ -3890,6 +4649,10 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_reservacion;
 		
+		private EntityRef<tbl_habitacion> _tbl_habitacion;
+		
+		private EntityRef<tbl_usuario> _tbl_usuario;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -3914,6 +4677,8 @@ namespace AccesoData
 		
 		public tbl_reservacion()
 		{
+			this._tbl_habitacion = default(EntityRef<tbl_habitacion>);
+			this._tbl_usuario = default(EntityRef<tbl_usuario>);
 			OnCreated();
 		}
 		
@@ -3948,6 +4713,10 @@ namespace AccesoData
 			{
 				if ((this._id_habitacion != value))
 				{
+					if (this._tbl_habitacion.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_habitacionChanging(value);
 					this.SendPropertyChanging();
 					this._id_habitacion = value;
@@ -3968,6 +4737,10 @@ namespace AccesoData
 			{
 				if ((this._id_usuario != value))
 				{
+					if (this._tbl_usuario.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_usuarioChanging(value);
 					this.SendPropertyChanging();
 					this._id_usuario = value;
@@ -4077,6 +4850,74 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_habitacion_tbl_reservacion", Storage="_tbl_habitacion", ThisKey="id_habitacion", OtherKey="id_habitacion", IsForeignKey=true)]
+		public tbl_habitacion tbl_habitacion
+		{
+			get
+			{
+				return this._tbl_habitacion.Entity;
+			}
+			set
+			{
+				tbl_habitacion previousValue = this._tbl_habitacion.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_habitacion.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_habitacion.Entity = null;
+						previousValue.tbl_reservacions.Remove(this);
+					}
+					this._tbl_habitacion.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_reservacions.Add(this);
+						this._id_habitacion = value.id_habitacion;
+					}
+					else
+					{
+						this._id_habitacion = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_habitacion");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_usuario_tbl_reservacion", Storage="_tbl_usuario", ThisKey="id_usuario", OtherKey="id_usuario", IsForeignKey=true)]
+		public tbl_usuario tbl_usuario
+		{
+			get
+			{
+				return this._tbl_usuario.Entity;
+			}
+			set
+			{
+				tbl_usuario previousValue = this._tbl_usuario.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_usuario.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_usuario.Entity = null;
+						previousValue.tbl_reservacions.Remove(this);
+					}
+					this._tbl_usuario.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_reservacions.Add(this);
+						this._id_usuario = value.id_usuario;
+					}
+					else
+					{
+						this._id_usuario = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_usuario");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4114,6 +4955,8 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_rol;
 		
+		private EntitySet<tbl_usuario> _tbl_usuarios;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4132,10 +4975,11 @@ namespace AccesoData
 		
 		public tbl_rol()
 		{
+			this._tbl_usuarios = new EntitySet<tbl_usuario>(new Action<tbl_usuario>(this.attach_tbl_usuarios), new Action<tbl_usuario>(this.detach_tbl_usuarios));
 			OnCreated();
 		}
 		
-		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_rol", DbType="Int NOT NULL", IsPrimaryKey=true)]
+		[global::System.Data.Linq.Mapping.ColumnAttribute(Storage="_id_rol", AutoSync=AutoSync.OnInsert, DbType="Int NOT NULL IDENTITY", IsPrimaryKey=true, IsDbGenerated=true)]
 		public int id_rol
 		{
 			get
@@ -4235,6 +5079,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_rol_tbl_usuario", Storage="_tbl_usuarios", ThisKey="id_rol", OtherKey="id_rol")]
+		public EntitySet<tbl_usuario> tbl_usuarios
+		{
+			get
+			{
+				return this._tbl_usuarios;
+			}
+			set
+			{
+				this._tbl_usuarios.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4253,6 +5110,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_usuarios(tbl_usuario entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_rol = this;
+		}
+		
+		private void detach_tbl_usuarios(tbl_usuario entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_rol = null;
 		}
 	}
 	
@@ -4460,6 +5329,8 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_tipohabitacion;
 		
+		private EntitySet<tbl_habitacion> _tbl_habitacions;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4480,6 +5351,7 @@ namespace AccesoData
 		
 		public tbl_tipo_habitacion()
 		{
+			this._tbl_habitacions = new EntitySet<tbl_habitacion>(new Action<tbl_habitacion>(this.attach_tbl_habitacions), new Action<tbl_habitacion>(this.detach_tbl_habitacions));
 			OnCreated();
 		}
 		
@@ -4603,6 +5475,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_tipo_habitacion_tbl_habitacion", Storage="_tbl_habitacions", ThisKey="id_tipohabitacion", OtherKey="id_tipohabitacion")]
+		public EntitySet<tbl_habitacion> tbl_habitacions
+		{
+			get
+			{
+				return this._tbl_habitacions;
+			}
+			set
+			{
+				this._tbl_habitacions.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4622,6 +5507,18 @@ namespace AccesoData
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
 		}
+		
+		private void attach_tbl_habitacions(tbl_habitacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_tipo_habitacion = this;
+		}
+		
+		private void detach_tbl_habitacions(tbl_habitacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_tipo_habitacion = null;
+		}
 	}
 	
 	[global::System.Data.Linq.Mapping.TableAttribute(Name="dbo.tbl_tipo_persona")]
@@ -4639,6 +5536,8 @@ namespace AccesoData
 		private System.Nullable<System.DateTime> _actualizacion_tipopersona;
 		
 		private System.Nullable<char> _estado_tipopersona;
+		
+		private EntitySet<tbl_persona> _tbl_personas;
 		
     #region Extensibility Method Definitions
     partial void OnLoaded();
@@ -4658,6 +5557,7 @@ namespace AccesoData
 		
 		public tbl_tipo_persona()
 		{
+			this._tbl_personas = new EntitySet<tbl_persona>(new Action<tbl_persona>(this.attach_tbl_personas), new Action<tbl_persona>(this.detach_tbl_personas));
 			OnCreated();
 		}
 		
@@ -4761,6 +5661,19 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_tipo_persona_tbl_persona", Storage="_tbl_personas", ThisKey="id_tipopersona", OtherKey="id_tipopersona")]
+		public EntitySet<tbl_persona> tbl_personas
+		{
+			get
+			{
+				return this._tbl_personas;
+			}
+			set
+			{
+				this._tbl_personas.Assign(value);
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -4779,6 +5692,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_personas(tbl_persona entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_tipo_persona = this;
+		}
+		
+		private void detach_tbl_personas(tbl_persona entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_tipo_persona = null;
 		}
 	}
 	
@@ -4804,6 +5729,12 @@ namespace AccesoData
 		
 		private System.Nullable<char> _estado_usuario;
 		
+		private EntitySet<tbl_reservacion> _tbl_reservacions;
+		
+		private EntityRef<tbl_persona> _tbl_persona;
+		
+		private EntityRef<tbl_rol> _tbl_rol;
+		
     #region Extensibility Method Definitions
     partial void OnLoaded();
     partial void OnValidate(System.Data.Linq.ChangeAction action);
@@ -4828,6 +5759,9 @@ namespace AccesoData
 		
 		public tbl_usuario()
 		{
+			this._tbl_reservacions = new EntitySet<tbl_reservacion>(new Action<tbl_reservacion>(this.attach_tbl_reservacions), new Action<tbl_reservacion>(this.detach_tbl_reservacions));
+			this._tbl_persona = default(EntityRef<tbl_persona>);
+			this._tbl_rol = default(EntityRef<tbl_rol>);
 			OnCreated();
 		}
 		
@@ -4862,6 +5796,10 @@ namespace AccesoData
 			{
 				if ((this._id_persona != value))
 				{
+					if (this._tbl_persona.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_personaChanging(value);
 					this.SendPropertyChanging();
 					this._id_persona = value;
@@ -4882,6 +5820,10 @@ namespace AccesoData
 			{
 				if ((this._id_rol != value))
 				{
+					if (this._tbl_rol.HasLoadedOrAssignedValue)
+					{
+						throw new System.Data.Linq.ForeignKeyReferenceAlreadyHasValueException();
+					}
 					this.Onid_rolChanging(value);
 					this.SendPropertyChanging();
 					this._id_rol = value;
@@ -4991,6 +5933,87 @@ namespace AccesoData
 			}
 		}
 		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_usuario_tbl_reservacion", Storage="_tbl_reservacions", ThisKey="id_usuario", OtherKey="id_usuario")]
+		public EntitySet<tbl_reservacion> tbl_reservacions
+		{
+			get
+			{
+				return this._tbl_reservacions;
+			}
+			set
+			{
+				this._tbl_reservacions.Assign(value);
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_persona_tbl_usuario", Storage="_tbl_persona", ThisKey="id_persona", OtherKey="id_persona", IsForeignKey=true)]
+		public tbl_persona tbl_persona
+		{
+			get
+			{
+				return this._tbl_persona.Entity;
+			}
+			set
+			{
+				tbl_persona previousValue = this._tbl_persona.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_persona.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_persona.Entity = null;
+						previousValue.tbl_usuarios.Remove(this);
+					}
+					this._tbl_persona.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_usuarios.Add(this);
+						this._id_persona = value.id_persona;
+					}
+					else
+					{
+						this._id_persona = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_persona");
+				}
+			}
+		}
+		
+		[global::System.Data.Linq.Mapping.AssociationAttribute(Name="tbl_rol_tbl_usuario", Storage="_tbl_rol", ThisKey="id_rol", OtherKey="id_rol", IsForeignKey=true)]
+		public tbl_rol tbl_rol
+		{
+			get
+			{
+				return this._tbl_rol.Entity;
+			}
+			set
+			{
+				tbl_rol previousValue = this._tbl_rol.Entity;
+				if (((previousValue != value) 
+							|| (this._tbl_rol.HasLoadedOrAssignedValue == false)))
+				{
+					this.SendPropertyChanging();
+					if ((previousValue != null))
+					{
+						this._tbl_rol.Entity = null;
+						previousValue.tbl_usuarios.Remove(this);
+					}
+					this._tbl_rol.Entity = value;
+					if ((value != null))
+					{
+						value.tbl_usuarios.Add(this);
+						this._id_rol = value.id_rol;
+					}
+					else
+					{
+						this._id_rol = default(Nullable<int>);
+					}
+					this.SendPropertyChanged("tbl_rol");
+				}
+			}
+		}
+		
 		public event PropertyChangingEventHandler PropertyChanging;
 		
 		public event PropertyChangedEventHandler PropertyChanged;
@@ -5009,6 +6032,18 @@ namespace AccesoData
 			{
 				this.PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
 			}
+		}
+		
+		private void attach_tbl_reservacions(tbl_reservacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_usuario = this;
+		}
+		
+		private void detach_tbl_reservacions(tbl_reservacion entity)
+		{
+			this.SendPropertyChanging();
+			entity.tbl_usuario = null;
 		}
 	}
 }

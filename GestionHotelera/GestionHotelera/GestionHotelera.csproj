@@ -1158,6 +1158,8 @@
     <Content Include="fonts\fontawesome-webfont.ttf" />
     <Content Include="fonts\fontawesome-webfont.woff" />
     <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="WFIdentificacion.aspx" />
+    <Content Include="WFPruebas.aspx" />
     <None Include="Scripts\jquery-3.3.1.intellisense.js" />
     <Content Include="img\arrow-up.png" />
     <Content Include="img\avatar-mini.jpg" />
@@ -1361,6 +1363,20 @@
     </Compile>
     <Compile Include="ViewSwitcher.ascx.designer.cs">
       <DependentUpon>ViewSwitcher.ascx</DependentUpon>
+    </Compile>
+    <Compile Include="WFIdentificacion.aspx.cs">
+      <DependentUpon>WFIdentificacion.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WFIdentificacion.aspx.designer.cs">
+      <DependentUpon>WFIdentificacion.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="WFPruebas.aspx.cs">
+      <DependentUpon>WFPruebas.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="WFPruebas.aspx.designer.cs">
+      <DependentUpon>WFPruebas.aspx</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>

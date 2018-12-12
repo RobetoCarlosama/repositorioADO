@@ -51,7 +51,7 @@
                 </div>
 
                 <!--logo start-->
-                <a href="inicio.aspx" class="logo">Gestion-<span class="lite">Comercial</span></a>
+                <a href="inicio.aspx" class="logo">Gestion-<span class="lite">Hotelera</span></a>
                 <!--logo end-->
 
                 <div class="nav search-row" id="top_menu">
@@ -292,7 +292,7 @@
                                 <li>
                                     <a href="#"><i class="icon_key_alt"></i>
                                         <%-- <button id="btnlogout" runat="server" class="btn btn-primary" onserverclick="btnlogout_Click" >Salir</button>--%>
-                                       <%-- <asp:Button ID="btnlogout" CssClass="btn btn-primary" runat="server" Text="Salir" OnClick="btnlogout_Click" CausesValidation="False" />--%>
+                                        <asp:Button ID="btnlogout" CssClass="btn btn-primary" runat="server" Text="Salir" OnClick="btnlogout_Click" CausesValidation="False" />
                                     </a>
                                 </li>
 
@@ -324,7 +324,7 @@
                                 <span class="menu-arrow arrow_carrot-right"></span>
                             </a>
                             <ul class="sub">
-                                <li><a class="" href="WFCategoriaProducto.aspx">Categoría Producto</a></li>
+                                <li><a class="" href="WFIdentificacion.aspx">Tipo Identificacion</a></li>
                                 <li><a class="" href="WFCategoriaUsuario.aspx">Categoría Usuario</a></li>
                                 <li><a class="" href="frmUbicaciones.aspx">Direcciones</a></li>
                                 <li><a class="" href="WFGuardarFachada.aspx">Guardar fachada</a></li>

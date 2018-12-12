@@ -11,6 +11,22 @@ namespace GestionHotelera
     {
         protected void Page_Load(object sender, EventArgs e)
         {
+            if (Session["perfil"] != null)
+            {
+                lbl_perfil.Text = Session["perfil"].ToString();
+                lbl_nombres.Text = "Bienvenid@" + ": " + Session["nombres"].ToString();
+                lbl_nick.Text = Session["nick"].ToString();
+            }
+
+
+        }
+
+        protected void btnlogout_Click(object sender, EventArgs e)
+        {
+            //Session.Remove("perfil");
+            //Session.Remove("nombres");
+            //Session.Remove("nick");
+            Response.Redirect("~/Login.aspx");
 
         }
     }

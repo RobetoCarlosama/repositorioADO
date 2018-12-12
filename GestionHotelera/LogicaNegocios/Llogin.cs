@@ -32,6 +32,7 @@ namespace LogicaNegocios
             return respuesta;
         }
 
+        //Método para retornar todo el nombre del usuario
         public static tbl_persona ObtenerUsuario(string pusuario, string pass)
         {
             tbl_usuario result = new tbl_usuario();
@@ -53,6 +54,7 @@ namespace LogicaNegocios
             return UserResult;
         }
 
+        //Método para retornar nick de usuario
         public static tbl_usuario ObtenerNick(string pusuario, string pass)
         {
             tbl_usuario result = new tbl_usuario();
@@ -69,9 +71,34 @@ namespace LogicaNegocios
             catch (Exception ex)
             {
 
-                throw new ApplicationException("Error al Consultar Usuario", ex);
+                throw new ApplicationException("Error al Consultar Nick", ex);
             }
             return result;
+        }
+
+
+        //Método para retornar perfil de usuario
+        public static tbl_rol obtenerPerfil(string pusuario, string pass)
+        {
+            tbl_usuario result = new tbl_usuario();
+            tbl_persona UserResult = new tbl_persona();
+            tbl_rol perfilResult = new tbl_rol();
+
+            try
+            {
+                result = dc.tbl_usuarios.FirstOrDefault(lg => lg.nick_usuario.Equals(pusuario) & lg.clave_usuario.Equals(pass));
+
+                if (result != null)
+                {
+                    perfilResult = dc.tbl_rols.First(l => l.id_rol.Equals(result.id_rol));
+                }
+            }
+            catch (Exception ex)
+            {
+
+                throw new ApplicationException("Error al Consultar Perfil", ex);
+            }
+            return perfilResult;
         }
     }
 }
