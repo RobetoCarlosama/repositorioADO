@@ -13,7 +13,7 @@
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Nuevo Pedido</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Nuevo tipo de identificación</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -27,8 +27,8 @@
                                             <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("descripcion_identificacion") %>'></asp:TextBox>
                                         </EditItemTemplate>
                                         <InsertItemTemplate>
-                                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("descripcion_identificacion") %>'></asp:TextBox>
-                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" ErrorMessage="Debe ingresar la identificación" ForeColor="Red">*</asp:RequiredFieldValidator>
+                                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("descripcion_identificacion") %>' MaxLength="30"></asp:TextBox>
+                                            <asp:RequiredFieldValidator ID="RequiredFieldValidator1" runat="server" ControlToValidate="TextBox1" ErrorMessage="Debe ingresar el tipo de identificación" ForeColor="Red">*</asp:RequiredFieldValidator>
                                             <asp:RegularExpressionValidator ID="RegularExpressionValidator1" runat="server" ControlToValidate="TextBox1" ErrorMessage="Solo letras MAYÚSC" ForeColor="Blue" ValidationExpression="[A-Z ]*">*</asp:RegularExpressionValidator>
                                         </InsertItemTemplate>
                                         <ItemTemplate>
@@ -59,7 +59,7 @@
                 Agregar Nuevo Tipo de Identificación
             </button>
             <br />
-
+            
 
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
             <br />
@@ -69,7 +69,7 @@
                 <Columns>
                     <asp:TemplateField ShowHeader="False">
                         <EditItemTemplate>
-                            <asp:LinkButton ID="LinkButtonActualizar" runat="server" CausesValidation="False" CommandName="Update" CssClass="btn btn-success" Text="Actualizar"></asp:LinkButton>
+                            <asp:LinkButton ID="LinkButtonActualizar" runat="server" CommandName="Update" CssClass="btn btn-success" Text="Actualizar" ValidationGroup="grupoActualizar"></asp:LinkButton>
                             &nbsp;<asp:LinkButton ID="LinkButtonCancelar" runat="server" CausesValidation="False" CommandName="Cancel" CssClass="btn btn-primary" Text="Cancelar"></asp:LinkButton>
                         </EditItemTemplate>
                         <ItemTemplate>
@@ -78,17 +78,41 @@
                         </ItemTemplate>
                     </asp:TemplateField>
                     <asp:BoundField DataField="id_identificacion" HeaderText="#" InsertVisible="False" ReadOnly="True" SortExpression="id_identificacion" />
-                    <asp:BoundField DataField="descripcion_identificacion" HeaderText="descripcion" SortExpression="descripcion_identificacion" />
-                    <asp:BoundField DataField="creacion_identificacion" HeaderText="creacion" SortExpression="creacion_identificacion" />
+                    <asp:TemplateField HeaderText="descripcion" SortExpression="descripcion_identificacion">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox2" runat="server" MaxLength="30" Text='<%# Bind("descripcion_identificacion") %>'></asp:TextBox>
+                            <asp:RequiredFieldValidator ID="RequiredFieldValidator2" runat="server" ControlToValidate="TextBox2" ErrorMessage="Debe ingresar el tipo de identificación" ForeColor="Red" ValidationGroup="grupoActualizar">*</asp:RequiredFieldValidator>
+                            <asp:RegularExpressionValidator ID="RegularExpressionValidator2" runat="server" ControlToValidate="TextBox2" ErrorMessage="Solo letras MAYÚSC" ForeColor="Blue" ValidationExpression="[A-Z ]*" ValidationGroup="grupoActualizar">*</asp:RegularExpressionValidator>
+                            <asp:ValidationSummary ID="ValidationSummary2" runat="server" ForeColor="Blue" ValidationGroup="grupoActualizar" />
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label2" runat="server" Text='<%# Bind("descripcion_identificacion") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
+                    <asp:TemplateField HeaderText="creacion" SortExpression="creacion_identificacion">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox3" runat="server" ReadOnly="True" Text='<%# Bind("creacion_identificacion") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label3" runat="server" Text='<%# Bind("creacion_identificacion") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                     <asp:TemplateField HeaderText="actualizacion" SortExpression="actualizacion_identificacion">
                         <EditItemTemplate>
-                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("actualizacion_identificacion") %>'></asp:TextBox>
+                            <asp:TextBox ID="TextBox1" runat="server" Text='<%# Bind("actualizacion_identificacion") %>' ReadOnly="True"></asp:TextBox>
                         </EditItemTemplate>
                         <ItemTemplate>
                             <asp:Label ID="Label1" runat="server" Text='<%# Bind("actualizacion_identificacion") %>'></asp:Label>
                         </ItemTemplate>
                     </asp:TemplateField>
-                    <asp:BoundField DataField="estado_identificacion" HeaderText="estado" SortExpression="estado_identificacion" />
+                    <asp:TemplateField HeaderText="estado" SortExpression="estado_identificacion">
+                        <EditItemTemplate>
+                            <asp:TextBox ID="TextBox4" runat="server" ReadOnly="True" Text='<%# Bind("estado_identificacion") %>'></asp:TextBox>
+                        </EditItemTemplate>
+                        <ItemTemplate>
+                            <asp:Label ID="Label4" runat="server" Text='<%# Bind("estado_identificacion") %>'></asp:Label>
+                        </ItemTemplate>
+                    </asp:TemplateField>
                 </Columns>
             </asp:GridView>
 
