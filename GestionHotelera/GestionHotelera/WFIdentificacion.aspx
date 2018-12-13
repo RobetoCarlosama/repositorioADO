@@ -121,7 +121,7 @@
 
 
 
-            <asp:SqlDataSource ID="sqldsTipoIdentificacion" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:gestionHoteleraConnectionString %>"
+            <asp:SqlDataSource ID="sqldsTipoIdentificacion" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:gestionHoteleraConnectionString2 %>"
                 DeleteCommand="UPDATE [tbl_identificacion] SET [estado_identificacion] ='I' WHERE [id_identificacion] = @original_id_identificacion "
                 InsertCommand="INSERT INTO [tbl_identificacion] ([descripcion_identificacion], [creacion_identificacion], [actualizacion_identificacion], [estado_identificacion]) VALUES (@descripcion_identificacion, GETDATE(), @actualizacion_identificacion, 'A')" OldValuesParameterFormatString="original_{0}"
                 SelectCommand="SELECT * FROM [tbl_identificacion] WHERE ([estado_identificacion] = @estado_identificacion)"
