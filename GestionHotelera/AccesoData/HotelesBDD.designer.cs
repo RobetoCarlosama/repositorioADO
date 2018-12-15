@@ -93,7 +93,7 @@ namespace AccesoData
     #endregion
 		
 		public HotelesBDDDataContext() : 
-				base(global::AccesoData.Properties.Settings.Default.gestionHoteleraConnectionString1, mappingSource)
+				base(global::AccesoData.Properties.Settings.Default.gestionHoteleraConnectionString, mappingSource)
 		{
 			OnCreated();
 		}

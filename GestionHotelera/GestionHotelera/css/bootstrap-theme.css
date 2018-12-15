@@ -1283,6 +1283,7 @@ table {
   max-width: 100%;
   background-color: transparent;
     text-align: justify;
+    font-size: small;
 }
 th {
   text-align: left;

@@ -325,15 +325,17 @@
                             </a>
                             <ul class="sub">
                                 <li><a class="" href="WFIdentificacion.aspx">Tipo Identificacion</a></li>
-                                <li><a class="" href="WFCategoriaUsuario.aspx">Categoría Usuario</a></li>
-                                <li><a class="" href="frmUbicaciones.aspx">Direcciones</a></li>
-                                <li><a class="" href="WFGuardarFachada.aspx">Guardar fachada</a></li>
-                                <li><a class="" href="WFLogin.aspx">Login</a></li>
-                                <li><a class="" href="WFPedidos.aspx">Pedidos</a></li>
-                                <li><a class="" href="WFProductos.aspx">Productos</a></li>
+                                <li><a class="" href="WFRol.aspx">Roles</a></li>
+                                <li><a class="" href="WFHotel.aspx">Hotel</a></li>
+                                <li><a class="" href="WFGuardarFachada.aspx">Tipo Habitación</a></li>
+                                <li><a class="" href="">Habitación</a></li>
+                                <li><a class="" href="">Tipo Persona</a></li>
+                                <li><a class="" href="">Persona</a></li> 
+                                <li><a class="" href="">Provinvia</a></li>
+                                <%--<li><a class="" href="WFProductos.aspx">Productos</a></li>
                                 <li><a class="" href="WFRutas.aspx">Rutas</a></li>
                                 <li><a class="" href="WFUsuario.aspx">Usuario</a></li>
-                                <li><a class="" href="WFGuardaDetails.aspx">Detalles</a></li>
+                                <li><a class="" href="WFGuardaDetails.aspx">Detalles</a></li>--%>
                             </ul>
                         </li>
                         <li class="sub-menu">
@@ -436,7 +438,7 @@
             Licensing information: https://bootstrapmade.com/license/
             Purchase the pro version form: https://bootstrapmade.com/buy/?theme=NiceAdmin
           -->
-                    Realizado por: <a href="inicio.aspx">R.C.©B.CH.©Todos los derechos Reservados</a>
+                    Realizado por: <a href="inicio.aspx">R.C.©P.I-6°"A"N©Todos los derechos Reservados</a>
                 </div>
             </div>
         </section>

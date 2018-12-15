@@ -55,12 +55,8 @@
                 </div>
             </div>
             <br />
-            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal">
-                Agregar Nuevo Tipo de Identificación
-            </button>
-            <br />
+            <a class="btn-sm btn-primary"  data-target="#exampleModal" data-toggle="modal">Nuevo <i class="icon_plus_alt2" data-target="#exampleModal" data-toggle="modal"></i></a>
             
-
             <asp:ValidationSummary ID="ValidationSummary1" runat="server" ShowMessageBox="True" ShowSummary="False" />
             <br />
             <br />
@@ -121,13 +117,13 @@
 
 
 
-            <asp:SqlDataSource ID="sqldsTipoIdentificacion" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:gestionHoteleraConnectionString2 %>"
+            <asp:SqlDataSource ID="sqldsTipoIdentificacion" runat="server" ConflictDetection="CompareAllValues" ConnectionString="<%$ ConnectionStrings:gestionHoteleraConnectionString %>"
                 DeleteCommand="UPDATE [tbl_identificacion] SET [estado_identificacion] ='I' WHERE [id_identificacion] = @original_id_identificacion "
                 InsertCommand="INSERT INTO [tbl_identificacion] ([descripcion_identificacion], [creacion_identificacion], [actualizacion_identificacion], [estado_identificacion]) VALUES (@descripcion_identificacion, GETDATE(), @actualizacion_identificacion, 'A')" OldValuesParameterFormatString="original_{0}"
                 SelectCommand="SELECT * FROM [tbl_identificacion] WHERE ([estado_identificacion] = @estado_identificacion)"
-                UpdateCommand="UPDATE       tbl_identificacion
-SET                descripcion_identificacion = @descripcion_identificacion, creacion_identificacion = @creacion_identificacion, actualizacion_identificacion = GETDATE(), estado_identificacion = @estado_identificacion
-WHERE        (id_identificacion = @original_id_identificacion)">
+                UpdateCommand="UPDATE  tbl_identificacion
+                               SET descripcion_identificacion = @descripcion_identificacion, creacion_identificacion = @creacion_identificacion, actualizacion_identificacion = GETDATE(), estado_identificacion = @estado_identificacion
+                                WHERE (id_identificacion = @original_id_identificacion)">
                 <DeleteParameters>
                     <asp:Parameter Name="original_id_identificacion" Type="Int32" />
                     <asp:Parameter Name="original_descripcion_identificacion" Type="String" />

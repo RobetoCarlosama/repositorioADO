@@ -1,5 +1,5 @@
 ﻿<?xml version="1.0" encoding="utf-8"?><Database Name="gestionHotelera" Class="HotelesBDDDataContext" xmlns="http://schemas.microsoft.com/linqtosql/dbml/2007">
-  <Connection Mode="AppSettings" ConnectionString="Data Source=DESKTOP-19SOTBV\SQLEXPRESS;Initial Catalog=gestionHotelera;Integrated Security=True" SettingsObjectName="AccesoData.Properties.Settings" SettingsPropertyName="gestionHoteleraConnectionString1" Provider="System.Data.SqlClient" />
+  <Connection Mode="AppSettings" ConnectionString="Data Source=.;Initial Catalog=gestionHotelera;Integrated Security=True" SettingsObjectName="AccesoData.Properties.Settings" SettingsPropertyName="gestionHoteleraConnectionString" Provider="System.Data.SqlClient" />
   <Table Name="dbo.tbl_alquiler" Member="tbl_alquilers">
     <Type Name="tbl_alquiler">
       <Column Name="id_alquiler" Type="System.Int32" DbType="Int NOT NULL IDENTITY" IsPrimaryKey="true" IsDbGenerated="true" CanBeNull="false" />
